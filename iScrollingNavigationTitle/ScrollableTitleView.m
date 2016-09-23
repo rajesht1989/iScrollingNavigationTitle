@@ -27,21 +27,22 @@
     self = [super initWithFrame:rect];
     if (self)
     {
-        CGRect rectTxt = [title boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, 20) options:NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:15]} context:nil];
+        CGRect rectTxt = [title boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, 44) options:NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:15]} context:nil];
+        rectTxt.origin.y = 0;
+        rectTxt.size.height = rect.size.height;
         UILabel *label = [[UILabel alloc] initWithFrame:rectTxt];
-        [label setCenter:CGPointMake(label.center.x, self.center.y)];
         [label setAutoresizingMask:UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
         [label setTextAlignment:NSTextAlignmentCenter];
-        [label setText:title];
         [label setTag:LABEL_TAG];
         [label setFont:[UIFont systemFontOfSize:15]];
-        
         [self addSubview:label];
         [self setContentSize:rectTxt.size];
         [self setShowsHorizontalScrollIndicator:NO];
         [self setScrollsToTop:NO];
+       
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             CGRect rectLbl = label.frame;
+            [label setText:title];
             if (self.frame.size.width > rectLbl.size.width)
             {
                 [label setCenter:self.center];
